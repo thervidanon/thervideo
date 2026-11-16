@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weaving Heat from Color: Thermal Video Synthesis with Physical Coherence</title>
+<meta name="description" content="TherVideo: thermal video synthesis from RGB with physical coherence. Anonymous CVPR 2027 submission.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root { --ink:#1d1f23; --muted:#5b6270; --accent:#2a78d6; --rule:#e3e6eb; --bg:#ffffff; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:"Times New Roman", Times, "Nimbus Roman", "Liberation Serif", serif; line-height:1.6; }
+  main { max-width:1040px; margin:0 auto; padding:56px 16px 72px; }
+  header { text-align:center; }
+  h1 { font-weight:600; font-size:clamp(1.75rem, 1.1rem + 2.6vw, 2.75rem); line-height:1.2;
+       margin:0 auto 18px; max-width:900px; }
+  h1 .sub { display:block; font-weight:400; }
+  .venue { display:inline-block; font-size:1.05rem; color:var(--muted); border:1px solid var(--rule);
+           border-radius:999px; padding:4px 16px; margin-bottom:8px; }
+  .authors { color:var(--muted); font-size:1.1rem; margin:6px 0 0; }
+  figure { margin:44px 0 0; }
+  figure img { width:100%; height:auto; display:block; }
+  figcaption { margin:14px auto 0; max-width:960px; font-size:1rem; text-align:justify; hyphens:auto; }
+  figcaption b { font-weight:600; }
+  section { max-width:860px; margin:52px auto 0; }
+  h2 { font-size:1.6rem; font-weight:600; text-align:center; margin:0 0 16px; }
+  .abstract p { font-size:1.12rem; text-align:justify; hyphens:auto; margin:0; }
+  .name { color:var(--accent); font-weight:600; }
+  footer { max-width:860px; margin:64px auto 0; padding-top:18px; border-top:1px solid var(--rule);
+           color:var(--muted); font-size:0.92rem; text-align:center; }
+  @media (max-width:640px) { main { padding-top:36px; } figcaption, .abstract p { text-align:left; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Weaving Heat from Color:<span class="sub">Thermal Video Synthesis with Physical Coherence</span></h1>
+    <div class="venue">CVPR 2027 Submission</div>
+    <p class="authors">Anonymous Authors</p>
+  </header>
+
+  <figure>
+    <picture>
+      <source srcset="static/teaser.webp" type="image/webp">
+      <img src="static/teaser.png" width="2400" height="989"
+           alt="Left: RGB frames and generated thermal frames for a TartanRGBT and a KAIST clip. Top right: radar chart comparing TherVideo with TherA, ThermalGen and DiffV2IR on video quality and physical coherence. Bottom right: rendered RGB and generated thermal halves for CARLA, Isaac Sim and MuJoCo scenes.">
+    </picture>
+    <figcaption>
+      <b>Our proposed method synthesizes temporally consistent thermal observations from RGB.</b>
+      Left: RGB-to-thermal video translation on TartanRGBT and KAIST datasets.
+      Top right: baseline comparisons, with video quality and physical coherence on log-scaled axes.
+      Bottom right: three real-time simulation examples, with rendered RGB (left half) and generated thermal (right half).
+    </figcaption>
+  </figure>
+
+  <section class="abstract">
+    <h2>Abstract</h2>
+    <p>
+      Thermal imaging enables perception under limited illumination, but collecting diverse thermal data and
+      constructing accurate physical simulators remain costly. Thermal synthesis addresses this data bottleneck by
+      translating abundant RGB observations into thermal observations, yet existing frame-wise translation methods
+      often introduce temporal flicker and physically unsupported appearance. To this effect, we present
+      <span class="name">TherVideo</span>, a framework that jointly models thermal appearance across time using a
+      video foundation model. Progressive cross-modal adaptation unifies joint RGB&ndash;thermal generation and
+      bidirectional translation to learn shared scene dynamics and modality-specific thermal appearance.
+      Reinforcement learning via reward-weighted flow matching improves physical coherence by promoting desired
+      thermal behavior and suppressing unsupported texture and illumination responses. Causal autoregression,
+      few-step distribution matching distillation, and bounded-context rollout training enable low-latency streaming
+      while maintaining long-horizon coherence. TherVideo reduces FVD by 37.2% and 54.2% on TartanRGBT and KAIST
+      datasets, respectively, compared with the strongest adapted baseline on each dataset. Quantized inference
+      achieves 17.6&nbsp;FPS end-to-end at 640&times;512 on a single RTX 5090, supporting real-time sensor
+      simulation.
+    </p>
+  </section>
+
+  <footer>Anonymous project page for double-blind review.</footer>
+</main>
+</body>
+</html>
