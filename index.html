@@ -30,7 +30,7 @@
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 999px;
          background: var(--ink); color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
   .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--rule); cursor: default; }
-  .lede { max-width: 760px; margin: 28px auto 0; text-align: center; font-size: 1.15rem; color: #2c3036; }
+  .lede { max-width: 760px; margin: 26px auto 0; text-align: center; font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem); font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 36px 0 0; }
   .stat { background: var(--panel); border-radius: 14px; padding: 18px 20px; }
   .stat b { display: block; font-size: 1.7rem; line-height: 1.2; color: var(--accent); font-weight: 700; }
@@ -78,14 +78,13 @@
       <a class="btn" href="#simulators">Simulators</a>
       <span class="btn ghost" title="Released after review">Code coming soon</span>
     </div>
-    <p class="lede"><b>TherVideo</b> turns ordinary RGB video into temporally consistent thermal video, fast enough to
-      act as a live thermal camera for real recordings and RGB simulators.</p>
+    <p class="lede">Any RGB video in. Thermal video out. Live.</p>
   </header>
 
   <div class="stats">
-    <div class="stat"><b>&minus;37% / &minus;54%</b><span>FVD vs. the strongest baseline on TartanRGBT / KAIST</span></div>
-    <div class="stat"><b>17.6 FPS</b><span>end-to-end at 640&times;512 on a single RTX 5090</span></div>
-    <div class="stat"><b>4 simulators</b><span>Isaac Sim, OmniGibson, MuJoCo and CARLA, no thermal modeling</span></div>
+    <div class="stat"><b>&minus;37% / &minus;54%</b><span>lower FVD than the best baseline, TartanRGBT / KAIST</span></div>
+    <div class="stat"><b>17.6 FPS</b><span>640&times;512 on one RTX 5090</span></div>
+    <div class="stat"><b>4 simulators</b><span>zero thermal modeling</span></div>
   </div>
 
   <figure>
@@ -94,15 +93,11 @@
       <img src="static/teaser.png" width="2400" height="989" loading="eager"
            alt="Left: RGB frames and generated thermal frames for a TartanRGBT and a KAIST clip. Top right: radar chart comparing TherVideo with TherA, ThermalGen and DiffV2IR. Bottom right: RGB and thermal halves of CARLA, Isaac Sim and MuJoCo scenes.">
     </picture>
-    <figcaption>RGB in, thermal out: real recordings on the left, video quality and physical coherence against
-      baselines on the top right, and simulator renders turned into thermal video on the bottom right.</figcaption>
   </figure>
 
   <section id="results">
-    <h2>Stable thermal video, not flickering frames</h2>
-    <p class="intro">Image translators synthesize every frame on its own, so brightness jumps and textures shimmer from
-      frame to frame. TherVideo generates the clip jointly and follows the real thermal camera over time. All clips are
-      held-out test data.</p>
+    <h2>Steady, not flickering.</h2>
+    <p class="intro">Frame-by-frame translators flicker. TherVideo holds steady. Held-out test clips.</p>
     <div class="cmp">
       <div class="tabs" role="tablist" aria-label="Comparison clips">
         <button class="tab" role="tab" aria-selected="true" data-src="kaist_017">Campus crosswalk &middot; KAIST</button>
@@ -114,41 +109,38 @@
         <video id="cmp" src="static/videos/cmp_kaist_017.mp4" poster="static/videos/cmp_kaist_017.jpg"
                width="972" height="706" muted loop playsinline preload="metadata"></video>
       </div>
-      <figcaption>Top: RGB input, ground-truth thermal and TherVideo. Bottom: frame-wise baselines TherA, DiffV2IR and
-        ThermalGen. 33 frames at 10&nbsp;Hz, looped.</figcaption>
+      <figcaption>Top: RGB &middot; ground truth &middot; <b>TherVideo</b>. Bottom: TherA &middot; DiffV2IR &middot; ThermalGen.</figcaption>
     </div>
   </section>
 
   <section id="simulators">
-    <h2>A thermal camera for any RGB simulator</h2>
-    <p class="intro">TherVideo never saw a rendered image in training, yet it turns simulator renders into plausible
-      thermal video: people run warm against cooler surroundings, a pan heats on the stove, logs flare up once lit, and
-      pedestrians stay visible at night and in fog.</p>
+    <h2>Every simulator gets a thermal camera.</h2>
+    <p class="intro">Never trained on a single render. Put it behind any RGB simulator.</p>
     <div class="grid">
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_E6.mp4" poster="static/videos/bid_E6.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>CARLA &middot; struck at a crossing</h3><p>A pedestrian steps in front of a car at night and stays visible as it is struck.</p></figure>
+        <h3>CARLA &middot; crash</h3><p>Visible through the impact.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_C2.mp4" poster="static/videos/bid_C2.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>OmniGibson &middot; cooking</h3><p>The pan on the stove is the hottest object in the kitchen.</p></figure>
+        <h3>OmniGibson &middot; kitchen</h3><p>The pan runs hottest.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_D6.mp4" poster="static/videos/bid_D6.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>MuJoCo &middot; handing over a hammer</h3><p>One arm passes the hammer to the other; arms and tool keep their contrast.</p></figure>
+        <h3>MuJoCo &middot; hammer handover</h3><p>Crisp through the hand-off.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_B1.mp4" poster="static/videos/sim_B1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>Isaac Sim &middot; hospital</h3><p>People stand out against cooler floors and walls.</p></figure>
+        <h3>Isaac Sim &middot; hospital</h3><p>Every person, a warm silhouette.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_C1.mp4" poster="static/videos/bid_C1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>OmniGibson &middot; fireplace</h3><p>Once lit, the logs become the brightest spot in the scene.</p></figure>
+        <h3>OmniGibson &middot; fireplace</h3><p>The logs flare once lit.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E2.mp4" poster="static/videos/sim_E2.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>CARLA &middot; dark night, fog</h3><p>Cars and people stand out where the RGB view is nearly black.</p></figure>
+        <h3>CARLA &middot; night fog</h3><p>Seen where RGB goes black.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_B6.mp4" poster="static/videos/sim_B6.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>Isaac Sim &middot; warehouse from above</h3><p>Every worker on the floor shows up as a warm figure.</p></figure>
+        <h3>Isaac Sim &middot; warehouse</h3><p>Every worker accounted for.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_D1.mp4" poster="static/videos/bid_D1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>MuJoCo &middot; hanging a tool</h3><p>The gripper and the tool stand out from the table and the wall.</p></figure>
+        <h3>MuJoCo &middot; tool hanging</h3><p>Tool and gripper pop off the table.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E4.mp4" poster="static/videos/sim_E4.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>CARLA &middot; heavy fog</h3><p>Pedestrians hidden by fog in RGB are clear in thermal.</p></figure>
+        <h3>CARLA &middot; heavy fog</h3><p>Fog hides them. Thermal doesn&rsquo;t.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/bid_A1.mp4" poster="static/videos/bid_A1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>Isaac Sim &middot; hospital corridor</h3><p>A person walking down the corridor stays warm against the walls.</p></figure>
+        <h3>Isaac Sim &middot; corridor</h3><p>Warm against cool walls.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E1.mp4" poster="static/videos/sim_E1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>CARLA &middot; night, rain</h3><p>Pedestrians on a dark, wet street are easy to spot.</p></figure>
+        <h3>CARLA &middot; night rain</h3><p>Pedestrians on a black, wet street.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_B4.mp4" poster="static/videos/sim_B4.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>Isaac Sim &middot; SmartSpaces warehouse</h3><p>Workers and humanoid robots on a busy warehouse floor.</p></figure>
+        <h3>Isaac Sim &middot; SmartSpaces</h3><p>People and humanoids, side by side.</p></figure>
     </div>
   </section>
 
