@@ -1,30 +1,67 @@
 # Weaving Heat from Color: Thermal Video Synthesis with Physical Coherence
 
-**CVPR 2027 Submission** · Anonymous Authors
+**CVPR 2027 Submission** · Anonymous Authors · [Project page](https://thervidanon.github.io/thervideo/)
 
-Project page: https://thervidanon.github.io/thervideo/
+![TherVideo](docs/static/teaser.png)
 
-![TherVideo teaser](static/teaser.png)
+TherVideo turns RGB video into temporally consistent thermal video. This repository contains the inference code of
+the offline model.
 
-**Our proposed method synthesizes temporally consistent thermal observations from RGB.**
-Left: RGB-to-thermal video translation on TartanRGBT and KAIST datasets.
-Top right: baseline comparisons, with video quality and physical coherence on log-scaled axes.
-Bottom right: three real-time simulation examples, with rendered RGB (left half) and generated thermal (right half).
+## Installation
 
-## Abstract
+```bash
+conda create -n thervideo python=3.10 -y && conda activate thervideo
+pip install torch --index-url https://download.pytorch.org/whl/cu128   # any CUDA build of PyTorch >= 2.4
+pip install -r requirements.txt
+```
 
-Thermal imaging enables perception under limited illumination, but collecting diverse thermal data and constructing
-accurate physical simulators remain costly. Thermal synthesis addresses this data bottleneck by translating abundant RGB
-observations into thermal observations, yet existing frame-wise translation methods often introduce temporal flicker and
-physically unsupported appearance. To this effect, we present **TherVideo**, a framework that jointly models thermal
-appearance across time using a video foundation model. Progressive cross-modal adaptation unifies joint RGB–thermal
-generation and bidirectional translation to learn shared scene dynamics and modality-specific thermal appearance.
-Reinforcement learning via reward-weighted flow matching improves physical coherence by promoting desired thermal
-behavior and suppressing unsupported texture and illumination responses. Causal autoregression, few-step distribution
-matching distillation, and bounded-context rollout training enable low-latency streaming while maintaining long-horizon
-coherence. TherVideo reduces FVD by 37.2% and 54.2% on TartanRGBT and KAIST datasets, respectively, compared with the
-strongest adapted baseline on each dataset. For real-time sensor simulation, TherVideo achieves 17.6 FPS end-to-end at
-640×512 on a single RTX 5090.
+A GPU with at least 40 GB of memory is recommended.
 
----
-Anonymous project page for double-blind review.
+## Weights
+
+1. Base model: download [Wan2.2-TI2V-5B-Diffusers](https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B-Diffusers):
+
+   ```bash
+   huggingface-cli download Wan-AI/Wan2.2-TI2V-5B-Diffusers --local-dir checkpoints/Wan2.2-TI2V-5B-Diffusers
+   ```
+
+2. TherVideo weights (`thervideo_offline.safetensors`): will be released after the review period. Place the file in
+   `checkpoints/`.
+
+## Usage
+
+```bash
+python infer.py --input path/to/rgb.mp4 --output thermal.mp4
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--input` | | RGB video file or a directory of frames |
+| `--output` | | output `.mp4` |
+| `--sensor` | `radiometric` | thermal style: `radiometric` (fixed per-clip scaling) or `agc8` (8-bit auto-gain) |
+| `--steps` | `30` | sampling steps |
+| `--guidance` | `2.0` | guidance scale on the RGB condition |
+| `--side_by_side` | off | write the RGB input next to the thermal output |
+
+Inputs are resampled to 10 Hz, center-cropped to 5:4 and resized to 640×512. Videos are processed in windows of
+33 frames, so the input needs at least 33 frames.
+
+From Python:
+
+```python
+from thervideo import TherVideoPipeline
+from thervideo.video import read_video, write_video
+
+pipe = TherVideoPipeline.from_pretrained("checkpoints/Wan2.2-TI2V-5B-Diffusers",
+                                         "checkpoints/thervideo_offline.safetensors")
+rgb = read_video("rgb.mp4")             # uint8 [N, 512, 640, 3]
+thermal = pipe(rgb)                     # uint8 [N, 512, 640]
+write_video("thermal.mp4", thermal)
+```
+
+The streaming model will be released together with its weights.
+
+## License
+
+The code is released under the [Apache 2.0 License](LICENSE). The base model is subject to the
+[Wan2.2 license](https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B-Diffusers).

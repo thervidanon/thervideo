@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+checkpoints/
+outputs/
+*.mp4
+!docs/static/videos/*.mp4

@@ -1,0 +1,7 @@
+torch>=2.4
+diffusers>=0.35
+accelerate>=0.30
+safetensors>=0.4
+numpy
+opencv-python
+imageio[ffmpeg]
