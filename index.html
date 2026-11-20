@@ -120,27 +120,21 @@
   <section id="simulators">
     <h2>A thermal camera for any RGB simulator</h2>
     <p class="intro">TherVideo never saw a rendered image in training, yet it turns simulator renders into plausible
-      thermal video: people run warm, a pan heats on the stove, logs flare up once lit, and pedestrians stay
-      visible at night and in fog.</p>
+      thermal video: people run warm against cooler surroundings, and pedestrians stay visible at night and in fog.
+      Every clip here is generated live by the 4-step streaming model, chunk by chunk, as a real camera would deliver it.</p>
     <div class="grid">
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_B1.mp4" poster="static/videos/sim_B1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
         <h3>Isaac Sim &middot; hospital</h3><p>People stand out against cooler floors and walls.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_B4.mp4" poster="static/videos/sim_B4.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
         <h3>Isaac Sim &middot; SmartSpaces warehouse</h3><p>Workers and humanoid robots on a busy warehouse floor.</p></figure>
-      <figure class="card"><div class="vid"><video data-src="static/videos/sim_C2.mp4" poster="static/videos/sim_C2.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>OmniGibson &middot; cooking</h3><p>The pan on the stove is the hottest object in the kitchen.</p></figure>
-      <figure class="card"><div class="vid"><video data-src="static/videos/sim_C1.mp4" poster="static/videos/sim_C1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>OmniGibson &middot; lighting a fireplace</h3><p>The logs match their surroundings, then brighten once they catch fire.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_D6.mp4" poster="static/videos/sim_D6.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>MuJoCo &middot; two-arm handover</h3><p>Robot arms and the handed-over object keep their shape and contrast.</p></figure>
+        <h3>MuJoCo &middot; two-arm handover</h3><p>Robot arms keep their shape and contrast as they move.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E1.mp4" poster="static/videos/sim_E1.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
         <h3>CARLA &middot; night, rain</h3><p>Pedestrians on a dark, wet street are easy to spot.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E2.mp4" poster="static/videos/sim_E2.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
         <h3>CARLA &middot; dark night, fog</h3><p>Cars and people stand out where the RGB view is nearly black.</p></figure>
       <figure class="card"><div class="vid"><video data-src="static/videos/sim_E4.mp4" poster="static/videos/sim_E4.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
         <h3>CARLA &middot; heavy fog</h3><p>Pedestrians hidden by fog in RGB are clear in thermal.</p></figure>
-      <figure class="card"><div class="vid"><video data-src="static/videos/sim_E5.mp4" poster="static/videos/sim_E5.jpg" width="960" height="384" muted loop playsinline preload="none"></video><span class="tag l">RGB</span><span class="tag r">Thermal</span></div>
-        <h3>CARLA &middot; storm crossing</h3><p>A pedestrian struck by a car stays visible throughout the fall.</p></figure>
     </div>
   </section>
 
